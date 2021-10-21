@@ -1,0 +1,34 @@
+provider "aws" {
+    region = "us-east-2" 
+    access_key = "AKIA2KLOVIG35J45JIMH"
+    secret_key = "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"
+}
+
+variable "subnet_cidr_block" { 
+    description =  "subnet cidr block"
+}
+
+variable "vpc_cidr_block" { 
+    description = "vpc cidr block"
+}
+
+resource "aws_vpc" "development-vpc" {
+    cidr_block = var.vpc_cidr_block
+    tags = { 
+        Name: "development",
+        vpc_env: "dev"
+    }
+}
+
+resource "aws_subnet" "dev-subnet-1" {
+    vpc_id = aws_vpc.development-vpc.id
+    cidr_block = var.subnet_cidr_block
+    availability_zone = "us-east-2a"
+    tags = { 
+        Name: "subnet-1-dev",
+    }
+}
+
+
+
+
